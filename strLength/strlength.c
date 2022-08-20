@@ -2,8 +2,12 @@
 #include <stdlib.h>
 #include <ctype.h>
 
-int str_length(char str[]){
-  
+void error(char str[]){
+  fprintf(stderr, "Error: %s\n",str);
+  exit(3);
+}
+
+int str_length(char str[]){  
   int count;
 
   for(count=0;str[count]!='\0';count++);  
@@ -14,14 +18,11 @@ int str_length(char str[]){
 int main(int argc, char *argv[]){
 
     if(argc > 2){
-      fprintf(stderr, "Too many arguments\n");
-      exit(1);
+      error("Too many arguments");
     } else if(argc<=1){
-      fprintf(stderr,"You should use at least one argument!\n");
-      exit(1);
+      error("You should use at least one argument!");
     } else if(isdigit(*argv[1])){
-      fprintf(stderr,"Argument must be a string.\n");
-      exit(1);
+      error("Argument must be a string.");
     }
   
   int length;
