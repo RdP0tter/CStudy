@@ -19,8 +19,8 @@ int main(int argc, char *argv[]){
       read(&file);
   
   if(strcmp(file.crud_arg, "update") == 0)
-    printf("update\n");
-  
+      update(&file); 
+
   if(strcmp(file.crud_arg, "delete") == 0)
       delete_file(&file);
   
