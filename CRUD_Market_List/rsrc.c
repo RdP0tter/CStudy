@@ -54,16 +54,26 @@ void read(struct file_opt *file){
 
 void update(struct file_opt *file){
     
-    uint64_t siz = 0;
+    //uint64_t siz = 0;
     FILE *fp;  
+    uint64_t txt_siz = strlen(file->str);
 
     if(!file->filepath)
       fatal_error("The file don't exist. Please use \"create\" instead. Exiting...");
-    else {
-      siz = file_size(file->filepath);
-      printf("%ld\n", siz);
-    }
+    else if((file_size(file->filepath)) == 0){
+          printf("File is empty.. Writing at beginning.. ");
+          fp = fopen(file->filepath, "w");
+          
+          if((fwrite(file->str, txt_siz, 1, fp)) != 1){
+            fatal_error("Unable to write to file. Exiting...");
+          } else {
+            printf("String written to file succeeded.\n");
+          }
 
+          fclose(fp);  
+     } else {
+          fatal_error("File not empty.. Exiting..");
+     }
 }
 
 void delete_file(struct file_opt *file){
