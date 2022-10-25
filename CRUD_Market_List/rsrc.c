@@ -1,6 +1,6 @@
 #include "rsrc.h"
 
-static uint64_t file_size(char *filepath){ 
+static size_t file_size(char *filepath){ 
     uint64_t res = 0;
     FILE *fp;
 
@@ -54,26 +54,33 @@ void read(struct file_opt *file){
 
 void update(struct file_opt *file){
     
-    //uint64_t siz = 0;
     FILE *fp;  
     uint64_t txt_siz = strlen(file->str);
 
     if(!file->filepath)
       fatal_error("The file don't exist. Please use \"create\" instead. Exiting...");
-    else if((file_size(file->filepath)) == 0){
-          printf("File is empty.. Writing at beginning.. ");
-          fp = fopen(file->filepath, "w");
-          
-          if((fwrite(file->str, txt_siz, 1, fp)) != 1){
-            fatal_error("Unable to write to file. Exiting...");
-          } else {
-            printf("String written to file succeeded.\n");
-          }
+    else if( ( file_size(file->filepath) ) == 0){
+         printf("File is empty.. Writing at beginning.. ");
+         fp = fopen(file->filepath, "w");
+         
+         if( (fwrite(file->str, txt_siz, 1, fp) ) != 1){
+           fatal_error("Unable to write to file. Exiting...");
+         } else {
+           printf("String written to file succeeded.\n");
+         }
 
-          fclose(fp);  
+         fclose(fp);  
      } else {
-          fatal_error("File not empty.. Exiting..");
-     }
+     
+         printf("File not empty.. Appending...");
+         fp = fopen(file->filepath, "a");
+
+         if( (fwrite(file->str, txt_siz, 1, fp) ) != 1){
+           fatal_error("Unable to write to file. Exiting...");
+         } else {
+           printf("String written to file succeeded.\n");
+         }
+    }
 }
 
 void delete_file(struct file_opt *file){
