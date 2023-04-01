@@ -7,7 +7,7 @@
 #define herror(msg)\
   do{perror(msg);exit(EXIT_FAILURE);}while(0)
 
-int main(int argc, char *argv[]){
+int main(){
 
   struct sockaddr_in server_addr;
   server_addr.sin_family = AF_INET;
@@ -17,8 +17,6 @@ int main(int argc, char *argv[]){
   int sockfd = socket(AF_INET, SOCK_STREAM, 0);
   if(sockfd == -1)
     herror("Error creating sockfd.\n");
-  else
-    printf("%d\n", sockfd);
 
   if((bind(sockfd, (struct sockaddr *)&server_addr, sizeof(server_addr)) == -1))
     herror("Could not bind to sockfd.\n");
